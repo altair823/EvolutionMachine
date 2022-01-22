@@ -17,7 +17,7 @@ import java.util.List;
  * Those units and edges are connected to each other to form a machine.
  * @author altair823
  */
-public class ATypeMachine {
+public class TypeAMachine {
 
     /**
      * Unit list that receive input for the machine.
@@ -35,8 +35,8 @@ public class ATypeMachine {
     private final Control control;
 
     /**
-     * Constructor for a new A Type Machine with unit layout file path.
-     * This constructor makes a new A type machine with a new Control instance through read unit layout file.
+     * Constructor for a new type A machine with unit layout file path.
+     * This constructor makes a new type A machine with a new Control instance through read unit layout file.
      * Input units are assigned implicitly starting with unit that has ID 1,
      * and output units are assigned implicitly starting backward with unit that has last ID.
      * @param inputUnitCount the number of input units.
@@ -45,7 +45,7 @@ public class ATypeMachine {
      * @throws FileSystemException wrong file system
      * @throws FileNotFoundException there is no such file
      */
-    public ATypeMachine(int inputUnitCount, int outputUnitCount, String unitLayoutFile) throws FileSystemException, FileNotFoundException {
+    public TypeAMachine(int inputUnitCount, int outputUnitCount, String unitLayoutFile) throws FileSystemException, FileNotFoundException {
         this.control = new Control();
         this.control.addMapper("A", new ATypeMapper());
         this.control.readLayout(new UnitLayoutReader(new File(unitLayoutFile)));
@@ -58,7 +58,7 @@ public class ATypeMachine {
     }
 
     /**
-     * Constructor for a new A type machine with existing Control instance.
+     * Constructor for a new type A machine with existing Control instance.
      * This constructor used for copying existing A type machine.
      * Input units are assigned implicitly starting with unit that has ID 1,
      * and output units are assigned implicitly starting backward with unit that has last ID.
@@ -66,7 +66,7 @@ public class ATypeMachine {
      * @param outputUnitCount the number of output units.
      * @param control existing Control instance.
      */
-    public ATypeMachine(int inputUnitCount, int outputUnitCount, Control control){
+    public TypeAMachine(int inputUnitCount, int outputUnitCount, Control control){
         this.control = Control.copy(control);
         for (int i = 0; i < inputUnitCount; i++) {
             this.inputUnits.add(this.control.getUnitMap().get((long) (i + 1)));
@@ -90,6 +90,13 @@ public class ATypeMachine {
         this.control.reverseSingleEdge();
     }
 
+    /**
+     * Method that initialize its unit states but not edges.
+     */
+    public void initMachineUnits(){
+        this.control.initUnitStates();
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -107,15 +114,29 @@ public class ATypeMachine {
     }
 
     /**
-     * Copy method that copy original A type machine to a new one.
-     * @param originalATypeMachine original A type machine
-     * @return new copied A type machine
-     * @throws FileSystemException wrong ULF file
-     * @throws FileNotFoundException no ULF file
+     * Copy method that copy original type A machine to a new one.
+     * @param originalTypeAMachine original type A machine
+     * @return new copied type A machine
      */
-    public static ATypeMachine copy(ATypeMachine originalATypeMachine) throws FileSystemException, FileNotFoundException {
-        return new ATypeMachine(originalATypeMachine.inputUnits.size(),
-                originalATypeMachine.outputUnits.size(),
-                originalATypeMachine.control);
+    public static TypeAMachine copy(TypeAMachine originalTypeAMachine) {
+        return new TypeAMachine(originalTypeAMachine.inputUnits.size(),
+                originalTypeAMachine.outputUnits.size(),
+                Control.copy(originalTypeAMachine.control));
+    }
+
+    /**
+     * Getter for input unit list.
+     * @return input unit list
+     */
+    public List<Unit> getInputUnits(){
+        return this.inputUnits;
+    }
+
+    /**
+     * Getter for output unit list.
+     * @return output unit list
+     */
+    public List<Unit> getOutputUnits(){
+        return this.outputUnits;
     }
 }

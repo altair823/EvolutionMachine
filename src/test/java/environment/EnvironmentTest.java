@@ -1,27 +1,25 @@
 package environment;
 
-import machine.ATypeMachine;
+import machine.TypeAMachine;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.nio.file.FileSystemException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EnvironmentTest {
-    private Environment environment;
+    private final Environment environment;
     EnvironmentTest() throws FileSystemException, FileNotFoundException {
         this.environment = new Environment(8, 8, 10, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
     }
 
     @Test
     void pulseTest(){
-        for (ATypeMachine aTypeMachine: this.environment.getaTypeMachines()){
-            System.out.println(aTypeMachine);
+        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
+            System.out.println(typeAMachine);
         }
         this.environment.pulse();
-        for (ATypeMachine aTypeMachine: this.environment.getaTypeMachines()){
-            System.out.println(aTypeMachine);
+        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
+            System.out.println(typeAMachine);
         }
     }
 }
