@@ -13,8 +13,7 @@ import java.util.List;
 
 
 /**
- * Machine class that contains units and edges.
- * Those units and edges are connected to each other to form a machine.
+ * Machine class that contains type A units and edges.
  * @author altair823
  */
 public class TypeAMachine implements Machine {
@@ -120,5 +119,62 @@ public class TypeAMachine implements Machine {
     @Override
     public Control getControl(){
         return this.control;
+    }
+
+    /**
+     *
+     */
+    public static class TypeAMachineBuilder implements MachineBuilder{
+        private int inputUnitCount;
+        private int outputUnitCount;
+        private String unitLayoutFile = null;
+        private Control control = null;
+
+        @Override
+        public MachineBuilder setInputUnitCount(int inputUnitCount) {
+            this.inputUnitCount = inputUnitCount;
+            return this;
+        }
+
+        @Override
+        public MachineBuilder setOutputUnitCount(int outputUnitCount) {
+            this.outputUnitCount = outputUnitCount;
+            return this;
+        }
+
+        @Override
+        public MachineBuilder setUnitLayoutFile(String unitLayoutFile) {
+            if (this.control != null){
+                throw new IllegalArgumentException("Control argument is already existing!");
+            }
+            this.unitLayoutFile = unitLayoutFile;
+            return this;
+        }
+
+        @Override
+        public MachineBuilder setControl(Control control) {
+            if (this.unitLayoutFile != null){
+                throw new IllegalArgumentException("Unit layout file string argument is already existing!");
+            }
+            this.control = control;
+            return this;
+        }
+
+        @Override
+        public Machine build() throws FileSystemException, FileNotFoundException {
+            if (this.control != null && this.unitLayoutFile == null){
+                return new TypeAMachine(this.inputUnitCount,
+                        this.outputUnitCount,
+                        this.control);
+            }
+            else if (this.control == null && this.unitLayoutFile != null){
+                return new TypeAMachine(this.inputUnitCount,
+                        this.outputUnitCount,
+                        this.unitLayoutFile);
+            }
+            else {
+                throw new IllegalArgumentException("Wrong arguments!");
+            }
+        }
     }
 }

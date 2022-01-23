@@ -1,6 +1,7 @@
 package environment;
 
 import machine.Machine;
+import machine.TypeAMachine;
 import org.junit.jupiter.api.Test;
 import selector.ApproximateSelector;
 
@@ -17,6 +18,7 @@ class EnvironmentTest {
                 .setMachineCount(10)
                 .setSelector(new ApproximateSelector(new BitSet(8)))
                 .setEliminateCount(5)
+                .setMachineBuilder(new TypeAMachine.TypeAMachineBuilder())
                 .build();
     }
 

@@ -1,7 +1,6 @@
 package environment;
 
 import machine.Machine;
-import machine.TypeAMachine;
 import selector.Selector;
 
 import java.io.FileNotFoundException;
@@ -35,10 +34,16 @@ public class Environment {
                         int aTypeMachineCount,
                         int eliminateCount,
                         Selector selector,
-                        String unitLayoutFilePath)
+                        String unitLayoutFilePath,
+                        Machine.MachineBuilder machineBuilder)
             throws FileSystemException, FileNotFoundException {
+
         for (int i = 0; i < aTypeMachineCount; i++){
-            machines.add(new TypeAMachine(inputUnitCount, outputUnitCount, unitLayoutFilePath));
+            machines.add(machineBuilder
+                    .setInputUnitCount(inputUnitCount)
+                    .setOutputUnitCount(outputUnitCount)
+                    .setUnitLayoutFile(unitLayoutFilePath)
+                    .build());
         }
         this.selector = selector;
         this.eliminateCount = eliminateCount;
@@ -129,6 +134,7 @@ public class Environment {
         private int eliminateCount;
         private Selector selector;
         private final String unitLayoutFilePath;
+        private Machine.MachineBuilder machineBuilder;
 
         /**
          * Constructor for Environment Builder.
@@ -189,6 +195,16 @@ public class Environment {
         }
 
         /**
+         * Setter for builder of a new Machine.
+         * @param machineBuilder MachineBuilder instance
+         * @return Environment builder instance
+         */
+        public EnvironmentBuilder setMachineBuilder(Machine.MachineBuilder machineBuilder){
+            this.machineBuilder = machineBuilder;
+            return this;
+        }
+
+        /**
          * Method that build a new Environment instance.
          * @return new Environment instance
          * @throws FileSystemException wrong ULF file
@@ -200,7 +216,8 @@ public class Environment {
                     this.machineCount,
                     this.eliminateCount,
                     this.selector,
-                    this.unitLayoutFilePath);
+                    this.unitLayoutFilePath,
+                    this.machineBuilder);
         }
     }
 }

@@ -3,8 +3,14 @@ package machine;
 import unorganized.machine.control.Control;
 import unorganized.machine.units.Unit;
 
+import java.io.FileNotFoundException;
+import java.nio.file.FileSystemException;
 import java.util.List;
 
+/**
+ * Interface for machines that evolve in given environment.
+ * @author altair823
+ */
 public interface Machine {
 
     /**
@@ -49,5 +55,47 @@ public interface Machine {
         return new TypeAMachine(originalMachine.getInputUnits().size(),
                 originalMachine.getOutputUnits().size(),
                 Control.copy(originalMachine.getControl()));
+    }
+
+    /**
+     * Interface for Builder of Machine instances.
+     */
+    interface MachineBuilder{
+
+        /**
+         * Setter for a number of input units.
+         * @param inputUnitCount a number of input units
+         * @return MachineBuilder instance
+         */
+        MachineBuilder setInputUnitCount(int inputUnitCount);
+
+        /**
+         * Setter for a number of output units.
+         * @param outputUnitCount a number of output units
+         * @return MachineBuilder instance
+         */
+        MachineBuilder setOutputUnitCount(int outputUnitCount);
+
+        /**
+         * Setter for a string that indicates path of unit layout file of machines.
+         * @param unitLayoutFile unit layout file path
+         * @return MachineBuilder instance
+         */
+        MachineBuilder setUnitLayoutFile(String unitLayoutFile);
+
+        /**
+         * Setter for a Control instance.
+         * @param control Control instance
+         * @return MachineBuilder instance
+         */
+        MachineBuilder setControl(Control control);
+
+        /**
+         * Method that builds a new Machine instance.
+         * @return a new Machine instance
+         * @throws FileSystemException wrong ULF file
+         * @throws FileNotFoundException no ULF file
+         */
+        Machine build() throws FileSystemException, FileNotFoundException;
     }
 }
