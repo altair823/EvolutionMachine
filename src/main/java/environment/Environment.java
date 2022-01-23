@@ -1,5 +1,6 @@
 package environment;
 
+import machine.Machine;
 import machine.TypeAMachine;
 import selector.Selector;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * and the number of the rest is increased instead.
  */
 public class Environment {
-    private final List<TypeAMachine> typeAMachines = new LinkedList<>();
+    private final List<Machine> machines = new LinkedList<>();
     private final Selector selector;
     private final int eliminateCount;
 
@@ -37,7 +38,7 @@ public class Environment {
                         String unitLayoutFilePath)
             throws FileSystemException, FileNotFoundException {
         for (int i = 0; i < aTypeMachineCount; i++){
-            typeAMachines.add(new TypeAMachine(inputUnitCount, outputUnitCount, unitLayoutFilePath));
+            machines.add(new TypeAMachine(inputUnitCount, outputUnitCount, unitLayoutFilePath));
         }
         this.selector = selector;
         this.eliminateCount = eliminateCount;
@@ -64,8 +65,8 @@ public class Environment {
     boolean evolve(){
         this.mutate();
         this.pulse();
-        for (TypeAMachine typeAMachine : this.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.getMachines()){
+            System.out.println(machine);
         }
         System.out.println("------------------");
         if (this.isSatisfyExpectedValue() != null){
@@ -79,8 +80,8 @@ public class Environment {
      * Method that makes a pulse and send it to all existing machines.
      */
     void pulse(){
-        for (TypeAMachine typeAMachine : this.typeAMachines){
-            typeAMachine.pulse();
+        for (Machine machine : this.machines){
+            machine.pulse();
         }
     }
 
@@ -88,7 +89,7 @@ public class Environment {
      * Method that reverses a single edge of each machine.
      */
     void mutate(){
-        for (TypeAMachine typeAMachine: this.typeAMachines){
+        for (Machine typeAMachine: this.machines){
             typeAMachine.mutateEdge();
         }
     }
@@ -99,23 +100,23 @@ public class Environment {
      * and increase the number of nearby machines under the desired conditions by that amount.
      */
     void select(){
-        this.selector.select(this.typeAMachines, this.eliminateCount);
+        this.selector.select(this.machines, this.eliminateCount);
     }
 
     /**
      * Method that checks whether each machine satisfies the conditions of the environment
      * @return the machine instance that satisfies the conditions. null if not.
      */
-    TypeAMachine isSatisfyExpectedValue(){
-        return this.selector.isExpectedValueMachineExisted(this.typeAMachines);
+    Machine isSatisfyExpectedValue(){
+        return this.selector.isExpectedValueMachineExisted(this.machines);
     }
 
     /**
      * Getter for list of machines.
      * @return list of machines
      */
-    public List<TypeAMachine> getTypeAMachines(){
-        return this.typeAMachines;
+    public List<Machine> getMachines(){
+        return this.machines;
     }
 
     /**

@@ -1,6 +1,6 @@
 package environment;
 
-import machine.TypeAMachine;
+import machine.Machine;
 import org.junit.jupiter.api.Test;
 import selector.ApproximateSelector;
 
@@ -22,62 +22,62 @@ class EnvironmentTest {
 
     @Test
     void pulseTest(){
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         this.environment.pulse();
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
     }
 
     @Test
     void mutateTest(){
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         for (int i = 0; i < 50; i++) {
             this.environment.mutate();
         }
         this.environment.pulse();
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
     }
 
     @Test
     void selectTest(){
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         System.out.println("------------------");
         for (int i = 0; i < 50; i++) {
             this.environment.mutate();
         }
         this.environment.pulse();
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         System.out.println("------------------");
         this.environment.select();
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
     }
 
     @Test
     void isSatisfyExpectedValueTest(){
 
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         System.out.println("------------------");
         for (int i = 0; i < 50; i++) {
             this.environment.mutate();
         }
         this.environment.pulse();
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         System.out.println("------------------");
         System.out.println(this.environment.isSatisfyExpectedValue());
@@ -90,8 +90,8 @@ class EnvironmentTest {
         while (!this.environment.evolve()){
             cycleCount++;
         }
-        for (TypeAMachine typeAMachine : this.environment.getTypeAMachines()){
-            System.out.println(typeAMachine);
+        for (Machine machine : this.environment.getMachines()){
+            System.out.println(machine);
         }
         System.out.println("cycle count: " + cycleCount);
     }

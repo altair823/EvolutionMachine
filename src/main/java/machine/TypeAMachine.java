@@ -17,7 +17,7 @@ import java.util.List;
  * Those units and edges are connected to each other to form a machine.
  * @author altair823
  */
-public class TypeAMachine {
+public class TypeAMachine implements Machine {
 
     /**
      * Unit list that receive input for the machine.
@@ -76,23 +76,17 @@ public class TypeAMachine {
         }
     }
 
-    /**
-     * Method that make a new pulse to control instance.
-     */
+    @Override
     public void pulse(){
         this.control.makePulse();
     }
 
-    /**
-     * Method that mutate the way a single edge in control delivering a state.
-     */
+    @Override
     public void mutateEdge(){
         this.control.reverseSingleEdge();
     }
 
-    /**
-     * Method that initialize its unit states but not edges.
-     */
+    @Override
     public void initMachineUnits(){
         this.control.initUnitStates();
     }
@@ -113,30 +107,18 @@ public class TypeAMachine {
         return stringBuilder.toString();
     }
 
-    /**
-     * Copy method that copy original type A machine to a new one.
-     * @param originalTypeAMachine original type A machine
-     * @return new copied type A machine
-     */
-    public static TypeAMachine copy(TypeAMachine originalTypeAMachine) {
-        return new TypeAMachine(originalTypeAMachine.inputUnits.size(),
-                originalTypeAMachine.outputUnits.size(),
-                Control.copy(originalTypeAMachine.control));
-    }
-
-    /**
-     * Getter for input unit list.
-     * @return input unit list
-     */
+    @Override
     public List<Unit> getInputUnits(){
         return this.inputUnits;
     }
 
-    /**
-     * Getter for output unit list.
-     * @return output unit list
-     */
+    @Override
     public List<Unit> getOutputUnits(){
         return this.outputUnits;
+    }
+
+    @Override
+    public Control getControl(){
+        return this.control;
     }
 }

@@ -1,5 +1,6 @@
 package selector;
 
+import machine.Machine;
 import machine.TypeAMachine;
 
 import java.util.List;
@@ -17,12 +18,12 @@ public interface Selector {
      * @param typeAMachineList list of machines
      * @return whether the desired value has appeared
      */
-    TypeAMachine isExpectedValueMachineExisted(List<TypeAMachine> typeAMachineList);
+    Machine isExpectedValueMachineExisted(List<Machine> typeAMachineList);
 
     /**
      * Machine selecting method.
      * @param typeAMachines list of type A machine instances
      * @param machineKillCount number of machines that have to eliminate
      */
-    void select(List<TypeAMachine> typeAMachines, int machineKillCount);
+    void select(List<Machine> typeAMachines, int machineKillCount);
 }
