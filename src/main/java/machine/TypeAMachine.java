@@ -122,7 +122,7 @@ public class TypeAMachine implements Machine {
     }
 
     /**
-     *
+     * Builder class for A type machine implementing MachineBuilder.
      */
     public static class TypeAMachineBuilder implements MachineBuilder{
         private int inputUnitCount;
