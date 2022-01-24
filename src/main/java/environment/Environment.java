@@ -1,9 +1,11 @@
 package environment;
 
+import logger.Logger;
 import machine.Machine;
 import selector.Selector;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +19,7 @@ public class Environment {
     private final List<Machine> machines = new LinkedList<>();
     private final Selector selector;
     private final int eliminateCount;
+    private final Logger logger;
 
     /**
      * Constructor for a new Environment object.
@@ -26,6 +29,8 @@ public class Environment {
      * @param eliminateCount the number of machines to eliminate
      * @param selector selector instance
      * @param unitLayoutFilePath unit layout file path
+     * @param machineBuilder builder instance for creating specific type of machines
+     * @param logger logger instance
      * @throws FileSystemException wrong ULF file
      * @throws FileNotFoundException no ULF file
      */
@@ -35,7 +40,8 @@ public class Environment {
                         int eliminateCount,
                         Selector selector,
                         String unitLayoutFilePath,
-                        Machine.MachineBuilder machineBuilder)
+                        Machine.MachineBuilder machineBuilder,
+                        Logger logger)
             throws FileSystemException, FileNotFoundException {
 
         for (int i = 0; i < aTypeMachineCount; i++){
@@ -47,6 +53,7 @@ public class Environment {
         }
         this.selector = selector;
         this.eliminateCount = eliminateCount;
+        this.logger = logger;
     }
 
     /**
@@ -54,9 +61,10 @@ public class Environment {
      * @param maxIterateCount a number that repeats the evolution of machines.
      * @return the number of trials that found the desired machine, or -1 if not found.
      */
-    public int evolveIterate(int maxIterateCount){
+    public int evolveIterate(int maxIterateCount) throws IOException {
         for (int i = 0; i < maxIterateCount; i++){
             if (this.evolve()){
+                this.logger.logTotalData();
                 return i;
             }
         }
@@ -70,10 +78,7 @@ public class Environment {
     boolean evolve(){
         this.mutate();
         this.pulse();
-        for (Machine machine : this.getMachines()){
-            System.out.println(machine);
-        }
-        System.out.println("------------------");
+        this.logger.updateMachineData(this.getMachines());
         if (this.isSatisfyExpectedValue() != null){
             return true;
         }
@@ -135,6 +140,7 @@ public class Environment {
         private Selector selector;
         private final String unitLayoutFilePath;
         private Machine.MachineBuilder machineBuilder;
+        private Logger logger;
 
         /**
          * Constructor for Environment Builder.
@@ -205,6 +211,16 @@ public class Environment {
         }
 
         /**
+         * Setter for logger of Environment.
+         * @param logger Logger instance
+         * @return Environment builder instance
+         */
+        public EnvironmentBuilder setLogger(Logger logger){
+            this.logger = logger;
+            return this;
+        }
+
+        /**
          * Method that build a new Environment instance.
          * @return new Environment instance
          * @throws FileSystemException wrong ULF file
@@ -217,7 +233,8 @@ public class Environment {
                     this.eliminateCount,
                     this.selector,
                     this.unitLayoutFilePath,
-                    this.machineBuilder);
+                    this.machineBuilder,
+                    this.logger);
         }
     }
 }

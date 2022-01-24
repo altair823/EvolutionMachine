@@ -32,7 +32,7 @@ class ApproximateSelectorTest {
     void changeMachineResultToBitset() throws FileSystemException, FileNotFoundException {
         Machine machine1 = new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
 
-        BitSet bitSetResult = approximateSelector.changeMachineResultToBitset(machine1);
+        BitSet bitSetResult = Selector.changeMachineResultToBitset(machine1);
         for (int i = 0; i < machine1.getOutputUnits().size(); i++) {
             System.out.print(bitSetResult.get(i) + " ");
         }
@@ -52,10 +52,10 @@ class ApproximateSelectorTest {
         Machine machine = new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
 
         // get result value of machine.
-        BitSet bitSetResult = approximateSelector.changeMachineResultToBitset(machine);
+        BitSet bitSetResult = Selector.changeMachineResultToBitset(machine);
 
         // compare
-        assertEquals(3, approximateSelector.countDifference(bitSetResult));
+        assertEquals(3, Selector.countDifference(expectedValue, bitSetResult));
     }
 
     @Test

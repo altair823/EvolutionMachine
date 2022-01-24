@@ -1,11 +1,13 @@
 package environment;
 
+import logger.CsvLogger;
 import machine.Machine;
 import machine.TypeAMachine;
 import org.junit.jupiter.api.Test;
 import selector.ApproximateSelector;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.BitSet;
 
@@ -19,6 +21,7 @@ class EnvironmentTest {
                 .setSelector(new ApproximateSelector(new BitSet(8)))
                 .setEliminateCount(5)
                 .setMachineBuilder(new TypeAMachine.TypeAMachineBuilder())
+                .setLogger(new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 8, new BitSet(8)))
                 .build();
     }
 
@@ -99,7 +102,7 @@ class EnvironmentTest {
     }
 
     @Test
-    void evolveIterateTest(){
+    void evolveIterateTest() throws IOException {
         System.out.println("cycle count: " + this.environment.evolveIterate(1000));
     }
 }

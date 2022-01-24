@@ -23,7 +23,7 @@ public class ApproximateSelector implements Selector{
     @Override
     public Machine isExpectedValueMachineExisted(List<Machine> machineList){
         for (Machine machine: machineList){
-            if (this.countDifference(this.changeMachineResultToBitset(machine)) == 0){
+            if (Selector.countDifference(this.expectedValue, Selector.changeMachineResultToBitset(machine)) == 0){
                 return machine;
             }
         }
@@ -73,46 +73,16 @@ public class ApproximateSelector implements Selector{
     }
 
     /**
-     * Method that sort list of machines by comparator.
+     * Method that sort list of machines by its result.
      * @param machines list of machines
      */
     void sortMachinesByResult(List<Machine> machines){
         machines.sort((machine1, machine2) -> {
-            BitSet machine1Result = changeMachineResultToBitset(machine1);
-            BitSet machine2Result = changeMachineResultToBitset(machine2);
+            BitSet machine1Result = Selector.changeMachineResultToBitset(machine1);
+            BitSet machine2Result = Selector.changeMachineResultToBitset(machine2);
 
-            return this.countDifference(machine1Result) - this.countDifference(machine2Result);
+            return Selector.countDifference(this.expectedValue, machine1Result)
+                    - Selector.countDifference(this.expectedValue, machine2Result);
         });
-    }
-
-    /**
-     * Method that convert the output of machine to bitset.
-     * @param machine Type A machine instance
-     * @return Bitset object indicates the result of machine.
-     */
-    BitSet changeMachineResultToBitset(Machine machine){
-        BitSet machineResult = new BitSet(machine.getOutputUnits().size());
-        for (int i = 0; i < machine.getOutputUnits().size(); i++){
-            if (machine.getOutputUnits().get(i).getCurrentState()) {
-                machineResult.set(i);
-            }
-        }
-        return machineResult;
-    }
-
-    /**
-     * Method that count differences between the result value of machine and expected value.
-     * @param machineResult result bitset value of machine
-     * @return number of differences
-     */
-    int countDifference(BitSet machineResult){
-        int maxBitCount = Math.max(machineResult.length(), this.expectedValue.length());
-        int differenceCount = 0;
-        for (int i = 0; i < maxBitCount; i++){
-            if (this.expectedValue.get(i) != machineResult.get(i)){
-                differenceCount++;
-            }
-        }
-        return differenceCount;
     }
 }

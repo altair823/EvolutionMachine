@@ -2,6 +2,7 @@ package logger;
 
 import machine.Machine;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -10,20 +11,14 @@ import java.util.List;
 public interface Logger {
 
     /**
-     * Log initial status of environment.
-     * @param machineList list of machines
-     */
-    void logInitialEnvironment(List<Machine> machineList);
-
-    /**
      * Update data of machines to log buffer.
      * @param machineList list of machines.
      */
     void updateMachineData(List<Machine> machineList);
 
     /**
-     * Log list of current machines.
-     * @param machineList list of machines
+     * Log the states of the machines so far.
+     * This method should be executed only once at the end.
      */
-    void logAllMachines(List<Machine> machineList);
+    void logTotalData() throws IOException;
 }

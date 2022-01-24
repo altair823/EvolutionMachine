@@ -3,6 +3,7 @@ package selector;
 import machine.Machine;
 import machine.TypeAMachine;
 
+import java.util.BitSet;
 import java.util.List;
 
 /**
@@ -26,4 +27,35 @@ public interface Selector {
      * @param machineKillCount number of machines that have to eliminate
      */
     void select(List<Machine> typeAMachines, int machineKillCount);
+
+    /**
+     * Method that count differences between the result value of machine and expected value.
+     * @param expectedValue expected bitset value
+     * @param machineResult result bitset value of machine
+     * @return number of differences
+     */
+    static int countDifference(BitSet expectedValue, BitSet machineResult){
+        int maxBitCount = Math.max(machineResult.length(), expectedValue.length());
+        int differenceCount = 0;
+        for (int i = 0; i < maxBitCount; i++){
+            if (expectedValue.get(i) != machineResult.get(i)){
+                differenceCount++;
+            }
+        }
+        return differenceCount;
+    }
+    /**
+     * Method that convert the output of machine to bitset.
+     * @param machine Type A machine instance
+     * @return Bitset object indicates the result of machine.
+     */
+    static BitSet changeMachineResultToBitset(Machine machine){
+        BitSet machineResult = new BitSet(machine.getOutputUnits().size());
+        for (int i = 0; i < machine.getOutputUnits().size(); i++){
+            if (machine.getOutputUnits().get(i).getCurrentState()) {
+                machineResult.set(i);
+            }
+        }
+        return machineResult;
+    }
 }
