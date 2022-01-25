@@ -47,9 +47,9 @@ public class CsvLogger implements Logger{
     public void logTotalData() throws IOException {
         BufferedWriter logWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.logFile)));
         // Write first line.
-        logWriter.write("Machines,");
+        logWriter.write("Generation,");
         for (int i = 1; i <= this.generationCount; i++){
-            logWriter.write("generation "+ i);
+            logWriter.write(String.valueOf(i));
             if (i != this.generationCount){
                 logWriter.write(",");
             }
