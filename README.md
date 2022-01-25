@@ -2,7 +2,7 @@
 
 돌연변이와 자연선택을 기반으로 조건에 맞는 결과를 출력하는 비정형 기계가 나타날 때까지 세대를 반복하는 프로그램입니다. 
 
-[UnorganizedMachine]([GitHub - altair823/UnorganizedMachine](https://github.com/altair823/UnorganizedMachine))을 외부 라이브러리로 사용하였습니다. 
+[UnorganizedMachine]([GitHub - altair823/UnorganizedMachine](https://github.com/altair823/UnorganizedMachine)) 을 외부 라이브러리로 사용하였습니다. 
 
 
 
