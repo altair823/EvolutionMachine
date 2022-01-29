@@ -78,6 +78,9 @@ public class Environment {
     boolean evolve(){
         this.mutate();
         this.pulse();
+        this.pulse();
+        this.pulse();
+        this.pulse();
         this.logger.updateMachineData(this.getMachines());
         if (this.isSatisfyExpectedValue() != null){
             return true;
