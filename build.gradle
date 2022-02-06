@@ -13,6 +13,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation files('UnorganizedMachine.jar')
+    testImplementation()
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
 }
 
 test {
