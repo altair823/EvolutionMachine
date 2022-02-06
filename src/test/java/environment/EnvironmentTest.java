@@ -22,7 +22,7 @@ class EnvironmentTest {
                 .setSelector(new ApproximateSelector(new BitSet(8)))
                 .setEliminateCount(5)
                 .setMachineBuilder(new TypeAMachine.TypeAMachineBuilder())
-                .setLogger(new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 8, new BitSet(8)))
+                .setLogger(new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 10, new BitSet(8)))
                 .build();
     }
 
