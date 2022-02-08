@@ -1,5 +1,6 @@
 package machine;
 
+import lombok.Builder;
 import unorganized.machine.control.Control;
 import unorganized.machine.mapper.ATypeMapper;
 import unorganized.machine.reader.UnitLayoutReader;

@@ -15,14 +15,15 @@ import java.util.BitSet;
 class EnvironmentTest {
     private final Environment environment;
     EnvironmentTest() throws FileSystemException, FileNotFoundException {
-        this.environment = new Environment.EnvironmentBuilder("/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf")
-                .setInputUnitCount(8)
-                .setOutputUnitCount(8)
-                .setMachineCount(10)
-                .setSelector(new ApproximateSelector(new BitSet(8)))
-                .setEliminateCount(5)
-                .setMachineBuilder(new TypeAMachine.TypeAMachineBuilder())
-                .setLogger(new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 10, new BitSet(8)))
+        this.environment = Environment.builder()
+                .unitLayoutFilePath("/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf")
+                .inputUnitCount(8)
+                .outputUnitCount(8)
+                .machineCount(10)
+                .selector(new ApproximateSelector(new BitSet(8)))
+                .eliminateCount(5)
+                .machineBuilder(new TypeAMachine.TypeAMachineBuilder())
+                .logger(new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 10, new BitSet(8)))
                 .build();
     }
 

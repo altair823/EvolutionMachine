@@ -1,6 +1,7 @@
 package environment;
 
 import logger.Logger;
+import lombok.Builder;
 import machine.Machine;
 import selector.Selector;
 
@@ -25,7 +26,7 @@ public class Environment {
      * Constructor for a new Environment object.
      * @param inputUnitCount the number of input units
      * @param outputUnitCount the number of output units
-     * @param aTypeMachineCount the number of type A machines
+     * @param machineCount the number of type A machines
      * @param eliminateCount the number of machines to eliminate
      * @param selector selector instance
      * @param unitLayoutFilePath unit layout file path
@@ -34,9 +35,10 @@ public class Environment {
      * @throws FileSystemException wrong ULF file
      * @throws FileNotFoundException no ULF file
      */
+    @Builder
     private Environment(int inputUnitCount,
                         int outputUnitCount,
-                        int aTypeMachineCount,
+                        int machineCount,
                         int eliminateCount,
                         Selector selector,
                         String unitLayoutFilePath,
@@ -44,7 +46,7 @@ public class Environment {
                         Logger logger)
             throws FileSystemException, FileNotFoundException {
 
-        for (int i = 0; i < aTypeMachineCount; i++){
+        for (int i = 0; i < machineCount; i++){
             machines.add(machineBuilder
                     .setInputUnitCount(inputUnitCount)
                     .setOutputUnitCount(outputUnitCount)
@@ -130,114 +132,5 @@ public class Environment {
      */
     public List<Machine> getMachines(){
         return this.machines;
-    }
-
-    /**
-     * Builder class that create Environment class.
-     */
-    public static class EnvironmentBuilder{
-        private int inputUnitCount;
-        private int outputUnitCount;
-        private int machineCount;
-        private int eliminateCount;
-        private Selector selector;
-        private final String unitLayoutFilePath;
-        private Machine.MachineBuilder machineBuilder;
-        private Logger logger;
-
-        /**
-         * Constructor for Environment Builder.
-         * @param unitLayoutFilePath unit layout file path
-         */
-        public EnvironmentBuilder(String unitLayoutFilePath){
-            this.unitLayoutFilePath = unitLayoutFilePath;
-        }
-
-        /**
-         * Setter for inputUnitCount.
-         * @param inputUnitCount number of input units.
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setInputUnitCount(int inputUnitCount){
-            this.inputUnitCount = inputUnitCount;
-            return this;
-        }
-
-        /**
-         * Setter for outputUnitCount.
-         * @param outputUnitCount number of output units.
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setOutputUnitCount(int outputUnitCount){
-            this.outputUnitCount = outputUnitCount;
-            return this;
-        }
-
-        /**
-         * Setter for machine count.
-         * @param machineCount number of machines
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setMachineCount(int machineCount){
-            this.machineCount = machineCount;
-            return this;
-        }
-
-        /**
-         * Setter for selector of environment.
-         * @param selector new selector
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setSelector(Selector selector){
-            this.selector = selector;
-            return this;
-        }
-
-        /**
-         * Setter for count of machines to eliminate.
-         * @param eliminateCount number of machines to eliminate.
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setEliminateCount(int eliminateCount){
-            this.eliminateCount = eliminateCount;
-            return this;
-        }
-
-        /**
-         * Setter for builder of a new Machine.
-         * @param machineBuilder MachineBuilder instance
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setMachineBuilder(Machine.MachineBuilder machineBuilder){
-            this.machineBuilder = machineBuilder;
-            return this;
-        }
-
-        /**
-         * Setter for logger of Environment.
-         * @param logger Logger instance
-         * @return Environment builder instance
-         */
-        public EnvironmentBuilder setLogger(Logger logger){
-            this.logger = logger;
-            return this;
-        }
-
-        /**
-         * Method that build a new Environment instance.
-         * @return new Environment instance
-         * @throws FileSystemException wrong ULF file
-         * @throws FileNotFoundException no ULF file
-         */
-        public Environment build() throws FileSystemException, FileNotFoundException {
-            return new Environment(this.inputUnitCount,
-                    this.outputUnitCount,
-                    this.machineCount,
-                    this.eliminateCount,
-                    this.selector,
-                    this.unitLayoutFilePath,
-                    this.machineBuilder,
-                    this.logger);
-        }
     }
 }

@@ -21,14 +21,15 @@ class CsvLoggerTest {
         target.set(1);
         target.set(4);
         this.csvLogger = new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 15, target);
-        this.environment = new Environment.EnvironmentBuilder("/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf")
-                .setSelector(new ApproximateSelector(target))
-                .setMachineCount(15)
-                .setInputUnitCount(8)
-                .setOutputUnitCount(8)
-                .setEliminateCount(6)
-                .setMachineBuilder(new TypeAMachine.TypeAMachineBuilder())
-                .setLogger(this.csvLogger)
+        this.environment = Environment.builder()
+                .unitLayoutFilePath("/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf")
+                .selector(new ApproximateSelector(target))
+                .machineCount(15)
+                .inputUnitCount(8)
+                .outputUnitCount(8)
+                .eliminateCount(6)
+                .machineBuilder(new TypeAMachine.TypeAMachineBuilder())
+                .logger(this.csvLogger)
                 .build();
     }
 

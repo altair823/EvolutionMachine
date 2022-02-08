@@ -32,14 +32,15 @@ public class EvolveMachine {
         String unitLayoutFilePath = args[5];
 
         String logFilePath = "test_log.csv";
-        Environment environment = new Environment.EnvironmentBuilder(unitLayoutFilePath)
-                .setLogger(new CsvLogger(logFilePath, machineCount, targetBit))
-                .setOutputUnitCount(outputUnitCount)
-                .setInputUnitCount(inputUnitCount)
-                .setEliminateCount(eliminateCount)
-                .setMachineCount(machineCount)
-                .setSelector(new ApproximateSelector(targetBit))
-                .setMachineBuilder(new TypeAMachine.TypeAMachineBuilder())
+        Environment environment = Environment.builder()
+                .unitLayoutFilePath(unitLayoutFilePath)
+                .logger(new CsvLogger(logFilePath, machineCount, targetBit))
+                .outputUnitCount(outputUnitCount)
+                .inputUnitCount(inputUnitCount)
+                .eliminateCount(eliminateCount)
+                .machineCount(machineCount)
+                .selector(new ApproximateSelector(targetBit))
+                .machineBuilder(new TypeAMachine.TypeAMachineBuilder())
                 .build();
 
         environment.evolveIterate(maxIterateCount);
