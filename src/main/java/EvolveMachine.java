@@ -1,6 +1,5 @@
 import environment.Environment;
 import logger.CsvLogger;
-import machine.TypeAMachine;
 import selector.ApproximateSelector;
 
 import java.io.IOException;
@@ -40,7 +39,6 @@ public class EvolveMachine {
                 .eliminateCount(eliminateCount)
                 .machineCount(machineCount)
                 .selector(new ApproximateSelector(targetBit))
-                .machineBuilder(new TypeAMachine.TypeAMachineBuilder())
                 .build();
 
         environment.evolveIterate(maxIterateCount);

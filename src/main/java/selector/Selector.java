@@ -1,7 +1,6 @@
 package selector;
 
 import machine.Machine;
-import machine.TypeAMachine;
 
 import java.util.BitSet;
 import java.util.List;
@@ -52,7 +51,7 @@ public interface Selector {
     static BitSet changeMachineResultToBitset(Machine machine){
         BitSet machineResult = new BitSet(machine.getOutputUnits().size());
         for (int i = 0; i < machine.getOutputUnits().size(); i++){
-            if (machine.getOutputUnits().get(i).getCurrentState()) {
+            if (machine.getOutputUnits().get(i).isCurrentState()) {
                 machineResult.set(i);
             }
         }

@@ -30,7 +30,6 @@ public class Environment {
      * @param eliminateCount the number of machines to eliminate
      * @param selector selector instance
      * @param unitLayoutFilePath unit layout file path
-     * @param machineBuilder builder instance for creating specific type of machines
      * @param logger logger instance
      * @throws FileSystemException wrong ULF file
      * @throws FileNotFoundException no ULF file
@@ -42,15 +41,14 @@ public class Environment {
                         int eliminateCount,
                         Selector selector,
                         String unitLayoutFilePath,
-                        Machine.MachineBuilder machineBuilder,
                         Logger logger)
             throws FileSystemException, FileNotFoundException {
 
         for (int i = 0; i < machineCount; i++){
-            machines.add(machineBuilder
-                    .setInputUnitCount(inputUnitCount)
-                    .setOutputUnitCount(outputUnitCount)
-                    .setUnitLayoutFile(unitLayoutFilePath)
+            machines.add(Machine.builder()
+                    .inputUnitCount(inputUnitCount)
+                    .outputUnitCount(outputUnitCount)
+                    .unitLayoutFile(unitLayoutFilePath)
                     .build());
         }
         this.selector = selector;

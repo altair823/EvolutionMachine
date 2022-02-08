@@ -1,101 +1,130 @@
 package machine;
 
+import lombok.Builder;
+import lombok.Getter;
 import unorganized.machine.control.Control;
+import unorganized.machine.mapper.ATypeMapper;
+import unorganized.machine.reader.UnitLayoutReader;
 import unorganized.machine.units.Unit;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.FileSystemException;
+import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * Interface for machines that evolve in given environment.
+ * Machine class that contains type A units and edges.
  * @author altair823
  */
-public interface Machine {
+@Getter
+public class Machine {
+
+    /**
+     * Unit list that receive input for the machine.
+     */
+    private final List<Unit> inputUnits = new ArrayList<>();
+
+    /**
+     * Unit list that transmit result of the machine.
+     */
+    private final List<Unit> outputUnits = new ArrayList<>();
+
+    /**
+     * Control instance that control all unit and edges by pulse.
+     */
+    private final Control control;
+
+    /**
+     * Constructor for a new type A machine with unit layout file path.
+     * This constructor makes a new type A machine with a new Control instance through read unit layout file.
+     * Input units are assigned implicitly starting with unit that has ID 1,
+     * and output units are assigned implicitly starting backward with unit that has last ID.
+     * @param inputUnitCount the number of input units.
+     * @param outputUnitCount the number of output units.
+     * @param unitLayoutFile path of file containing layout data of units and edges.
+     * @throws FileSystemException wrong file system
+     * @throws FileNotFoundException there is no such file
+     */
+    @Builder
+    public Machine(int inputUnitCount, int outputUnitCount, String unitLayoutFile) throws FileSystemException, FileNotFoundException {
+        this.control = new Control();
+        this.control.addMapper("A", new ATypeMapper());
+        this.control.readLayout(new UnitLayoutReader(new File(unitLayoutFile)));
+        for (int i = 0; i < inputUnitCount; i++) {
+            this.inputUnits.add(this.control.getUnitMap().get((long) (i + 1)));
+        }
+        for (int i = this.control.getUnitMap().size() - outputUnitCount + 1; i <= this.control.getUnitMap().size(); i++) {
+            this.outputUnits.add(this.control.getUnitMap().get((long) (i)));
+        }
+    }
+
+    /**
+     * Constructor for a new type A machine with existing Control instance.
+     * This constructor used for copying existing A type machine.
+     * Input units are assigned implicitly starting with unit that has ID 1,
+     * and output units are assigned implicitly starting backward with unit that has last ID.
+     * @param inputUnitCount the number of input units.
+     * @param outputUnitCount the number of output units.
+     * @param control existing Control instance.
+     */
+    @Builder
+    public Machine(int inputUnitCount, int outputUnitCount, Control control){
+        this.control = Control.copy(control);
+        for (int i = 0; i < inputUnitCount; i++) {
+            this.inputUnits.add(this.control.getUnitMap().get((long) (i + 1)));
+        }
+        for (int i = this.control.getUnitMap().size() - outputUnitCount + 1; i <= this.control.getUnitMap().size(); i++) {
+            this.outputUnits.add(this.control.getUnitMap().get((long) (i)));
+        }
+    }
 
     /**
      * Method that make a new pulse to control instance.
      */
-    void pulse();
+    public void pulse(){
+        this.control.makePulse();
+    }
 
     /**
      * Method that mutate the way a single edge in control delivering a state.
      */
-    void mutateEdge();
+    public void mutateEdge(){
+        this.control.reverseSingleEdge();
+    }
 
     /**
      * Method that initialize its unit states but not edges.
      */
-    void initMachineUnits();
+    public void initMachineUnits(){
+        this.control.initUnitStates();
+    }
 
-    /**
-     * Getter for input unit list.
-     * @return input unit list
-     */
-    List<Unit> getInputUnits();
-
-    /**
-     * Getter for output unit list.
-     * @return output unit list
-     */
-    List<Unit> getOutputUnits();
-
-    /**
-     * Getter for Control instance.
-     * @return control instance
-     */
-    Control getControl();
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Input Units states:  ");
+        for (Unit unit: this.inputUnits){
+            stringBuilder.append(unit.isCurrentState() ? "1 ": "0 ");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("Output Units states: ");
+        for (Unit outputUnit: this.outputUnits){
+            stringBuilder.append(outputUnit.isCurrentState() ? "1 ": "0 ");
+        }
+        stringBuilder.append("\n");
+        return stringBuilder.toString();
+    }
 
     /**
      * Copy method that copy original machine to a new one.
      * @param originalMachine original machine
      * @return new copied type A machine
      */
-    static TypeAMachine copy(Machine originalMachine) {
-        return new TypeAMachine(originalMachine.getInputUnits().size(),
+    public static Machine copy(Machine originalMachine) {
+        return new Machine(originalMachine.getInputUnits().size(),
                 originalMachine.getOutputUnits().size(),
                 Control.copy(originalMachine.getControl()));
-    }
-
-    /**
-     * Interface for Builder of Machine instances.
-     */
-    interface MachineBuilder{
-
-        /**
-         * Setter for a number of input units.
-         * @param inputUnitCount a number of input units
-         * @return MachineBuilder instance
-         */
-        MachineBuilder setInputUnitCount(int inputUnitCount);
-
-        /**
-         * Setter for a number of output units.
-         * @param outputUnitCount a number of output units
-         * @return MachineBuilder instance
-         */
-        MachineBuilder setOutputUnitCount(int outputUnitCount);
-
-        /**
-         * Setter for a string that indicates path of unit layout file of machines.
-         * @param unitLayoutFile unit layout file path
-         * @return MachineBuilder instance
-         */
-        MachineBuilder setUnitLayoutFile(String unitLayoutFile);
-
-        /**
-         * Setter for a Control instance.
-         * @param control Control instance
-         * @return MachineBuilder instance
-         */
-        MachineBuilder setControl(Control control);
-
-        /**
-         * Method that builds a new Machine instance.
-         * @return a new Machine instance
-         * @throws FileSystemException wrong ULF file
-         * @throws FileNotFoundException no ULF file
-         */
-        Machine build() throws FileSystemException, FileNotFoundException;
     }
 }

@@ -75,6 +75,9 @@ public class CsvLogger implements Logger{
         logWriter.close();
     }
 
+    /**
+     * Create a new .csv log file.
+     */
     void createCsvFile(){
         this.logFile = new File(this.logFilePath);
         try {

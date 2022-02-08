@@ -2,7 +2,6 @@ package environment;
 
 import logger.CsvLogger;
 import machine.Machine;
-import machine.TypeAMachine;
 import org.junit.jupiter.api.Test;
 import selector.ApproximateSelector;
 
@@ -22,7 +21,6 @@ class EnvironmentTest {
                 .machineCount(10)
                 .selector(new ApproximateSelector(new BitSet(8)))
                 .eliminateCount(5)
-                .machineBuilder(new TypeAMachine.TypeAMachineBuilder())
                 .logger(new CsvLogger("/Users/altair823/IdeaProjects/EvolutionMachine/log/test_log.csv", 10, new BitSet(8)))
                 .build();
     }

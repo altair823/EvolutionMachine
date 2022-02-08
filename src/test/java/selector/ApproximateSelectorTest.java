@@ -1,7 +1,6 @@
 package selector;
 
 import machine.Machine;
-import machine.TypeAMachine;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -18,19 +17,19 @@ class ApproximateSelectorTest {
     private ApproximateSelector approximateSelector;
 
     ApproximateSelectorTest() throws FileSystemException, FileNotFoundException {
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
-        machineList.add(new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
+        machineList.add(new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf"));
     }
 
     @Test
     void changeMachineResultToBitset() throws FileSystemException, FileNotFoundException {
-        Machine machine1 = new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
+        Machine machine1 = new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
 
         BitSet bitSetResult = Selector.changeMachineResultToBitset(machine1);
         for (int i = 0; i < machine1.getOutputUnits().size(); i++) {
@@ -49,7 +48,7 @@ class ApproximateSelectorTest {
         approximateSelector = new ApproximateSelector(expectedValue);
 
         // create machine.
-        Machine machine = new TypeAMachine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
+        Machine machine = new Machine(8, 8, "/Users/altair823/IdeaProjects/EvolutionMachine/layout/machine1.ulf");
 
         // get result value of machine.
         BitSet bitSetResult = Selector.changeMachineResultToBitset(machine);

@@ -1,7 +1,7 @@
 package logger;
 
 import environment.Environment;
-import machine.TypeAMachine;
+import machine.Machine;
 import org.junit.jupiter.api.Test;
 import selector.ApproximateSelector;
 
@@ -28,7 +28,6 @@ class CsvLoggerTest {
                 .inputUnitCount(8)
                 .outputUnitCount(8)
                 .eliminateCount(6)
-                .machineBuilder(new TypeAMachine.TypeAMachineBuilder())
                 .logger(this.csvLogger)
                 .build();
     }
